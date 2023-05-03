@@ -1,0 +1,15 @@
+{
+    "name": "koudo/mvcapp",
+    "autoload": {
+        "psr-4": {
+            "Router\\" : "routes/"
+        }
+    },
+    "authors": [
+        {
+            "name": "akayves",
+            "email": "koudou.ay@gmail.com"
+        }
+    ],
+    "require": {}
+}
