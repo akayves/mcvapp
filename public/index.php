@@ -4,6 +4,12 @@
 
     require __DIR__.'/../vendor/autoload.php';
 
+    //cette constante nous renvoie le chemin vers le dossier des views
+    define('VIEWS', dirname(__DIR__) . DIRECTORY_SEPARATOR . 'views' . DIRECTORY_SEPARATOR);
+
+    //cette constante va nous ramenez vers le dossiers des fichiers css et javascript
+    define('SCRIPTS', dirname($_SERVER['SCRIPT_NAME']) . DIRECTORY_SEPARATOR);
+
     $router = new Router($_GET['url']);
 
     /**

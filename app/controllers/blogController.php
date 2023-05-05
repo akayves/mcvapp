@@ -2,22 +2,34 @@
 
 namespace App\Controllers;
 /**
- * * cette class permet de gerer les blog
+ * * cette class permet de gerer les blog, elle va ettendre la class parent controller
+ * * pour faire les actions qui lui sont propre
  */
-class blogController{
+class blogController extends Controller{
 
+    /**
+     * * cette fonction renvoie une vue de l'accueil du blog
+     * @param void
+     * @return une page de vue
+     */
     public function index()
     {
-        echo 'je suis la home page';
+        /**
+         * * il faut noter que blog.index répresente blog/index.php dans notre dossier views
+         */
+       return $this->view('blog.index');
     }
 
     /**
-     * * cette methode affiche un article particulier
+     * * cette methode affiche un article en fonction de son identifiant
      * @param id
-     * @return void
+     * @return une page qui contient un article particulier
      */
     public function show(int $id)
     {
-        echo 'je suis le post '. $id;
+        /**
+         * * il faut noter que blog.show répresente blog/show.php dans notre dossier views
+         */
+        return $this->view('blog.show', compact('id'));
     }
 }
