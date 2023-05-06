@@ -1,6 +1,7 @@
 <?php 
 
 namespace App\Controllers;
+
 /**
  * * cette class permet de gerer les blog, elle va ettendre la class parent controller
  * * pour faire les actions qui lui sont propre
@@ -30,6 +31,11 @@ class blogController extends Controller{
         /**
          * * il faut noter que blog.show répresente blog/show.php dans notre dossier views
          */
+        $query = $this->db->getPdo()->query('SELECT * FROM posts');
+        $posts = $query->fetchAll();
+        foreach($posts as $post):
+            echo $post->title . '<br>';
+        endforeach;
         return $this->view('blog.show', compact('id'));
     }
 }
