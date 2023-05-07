@@ -15,8 +15,8 @@
     /**
      * en plus de $router->get() on pourrait faire aussi créer des router post method
      */
-    $router->get('/', 'App\Controllers\blogController@index');
-
+    $router->get('/', 'App\Controllers\blogController@welcome');
+    $router->get('/posts', 'App\Controllers\blogController@index');
     //on peut changer posts en ce qu'on veut en cas de réutilisation
     $router->get('posts/:id', 'App\Controllers\blogController@show');
 

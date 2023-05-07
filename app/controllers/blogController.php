@@ -13,14 +13,32 @@ class blogController extends Controller{
      * @param void
      * @return une page de vue
      */
-    public function index()
+    public function welcome()
     {
         /**
          * * il faut noter que blog.index répresente blog/index.php dans notre dossier views
          */
-       return $this->view('blog.index');
+       return $this->view('blog.welcome');
     }
 
+    /**
+     * * cette methode affiches tous les articles
+     * @param void
+     * @return une page qui contient tous les articles
+     */
+    public function index()
+    {
+        $query = $this->db->getPdo()->query('SELECT * FROM posts ORDER BY created_at DESC');
+        $posts = $query->fetchAll();
+
+        /**
+         * * on va envoyer la variable posts à notre vue pour qu'on puisse l'utiliser pour
+         * * afficher ce qu'il contient
+         * * notre variable posts est stocké dans compact
+         */
+        return $this->view('blog.index', compact('posts'));
+        
+    }
     /**
      * * cette methode affiche un article en fonction de son identifiant
      * @param id
@@ -31,11 +49,10 @@ class blogController extends Controller{
         /**
          * * il faut noter que blog.show répresente blog/show.php dans notre dossier views
          */
-        $query = $this->db->getPdo()->query('SELECT * FROM posts');
-        $posts = $query->fetchAll();
-        foreach($posts as $post):
-            echo $post->title . '<br>';
-        endforeach;
-        return $this->view('blog.show', compact('id'));
+        $query = $this->db->getPdo()->prepare('SELECT * FROM posts WHERE id = ?');
+         $query->execute([$id]);
+        $post = $query->fetch();
+
+        return $this->view('blog.show', compact('post'));
     }
 }

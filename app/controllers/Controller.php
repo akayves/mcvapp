@@ -31,12 +31,6 @@ use Database\DbConnection;
       $path = str_replace('.', DIRECTORY_SEPARATOR, $path);
 
       require VIEWS . $path . '.php';
-      /**
-       * * si la variable param existe on va utiliser la fonction extract pour recupérer l'id
-         */
-      if(isset($params)) :
-         $params = extract($params);
-      endif;
 
       /**
        * * on va mettre ce qu'on a recuperer avec ob_start() dans la variable $content
