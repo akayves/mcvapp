@@ -10,7 +10,7 @@
 
 use Database\DbConnection;
 
- class Controller{
+ abstract class Controller{
    protected $db;
    
    public function __construct(DbConnection $db)
@@ -25,7 +25,7 @@ use Database\DbConnection;
      * @param string $path le chemin
      * @param array $params qui contiendra l'id
      */
-   public function view(string $path, array $params = null)
+   protected function view(string $path, array $params = null)
    {
       ob_start();
       $path = str_replace('.', DIRECTORY_SEPARATOR, $path);
@@ -34,12 +34,21 @@ use Database\DbConnection;
 
       /**
        * * on va mettre ce qu'on a recuperer avec ob_start() dans la variable $content
-         */
+      */
       $content = ob_get_clean();
 
       //on require le fichier layout
       require VIEWS . 'layout.php';
    }
+
+   /**
+    * * cette methode recupère la connexion à la base de donnée
+    * @param void
+    * @return la connexion base de donnée
+    */
+    protected function getDB() {
+      return $this->db;
+    }
     
 
  }

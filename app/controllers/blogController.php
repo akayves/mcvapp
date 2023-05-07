@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+use App\Models\Post;
+
 /**
  * * cette class permet de gerer les blog, elle va ettendre la class parent controller
  * * pour faire les actions qui lui sont propre
@@ -28,14 +30,19 @@ class blogController extends Controller{
      */
     public function index()
     {
-        $query = $this->db->getPdo()->query('SELECT * FROM posts ORDER BY created_at DESC');
-        $posts = $query->fetchAll();
+        /**
+         * * post ici est un model qui faire reference à la table post de la base de
+         * * donnéé
+         */
+        $post = new Post($this->getDB());
+        $posts = $post->all();
 
         /**
          * * on va envoyer la variable posts à notre vue pour qu'on puisse l'utiliser pour
          * * afficher ce qu'il contient
          * * notre variable posts est stocké dans compact
          */
+
         return $this->view('blog.index', compact('posts'));
         
     }
@@ -46,13 +53,13 @@ class blogController extends Controller{
      */
     public function show(int $id)
     {
+        
+        $post = new Post($this->getDB());
+        $post = $post->findById($id);
+        
         /**
          * * il faut noter que blog.show répresente blog/show.php dans notre dossier views
          */
-        $query = $this->db->getPdo()->prepare('SELECT * FROM posts WHERE id = ?');
-         $query->execute([$id]);
-        $post = $query->fetch();
-
         return $this->view('blog.show', compact('post'));
     }
 }

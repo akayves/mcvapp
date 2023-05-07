@@ -49,7 +49,7 @@ use Database\DbConnection;
         $params = explode('@', $this->action);
 
         //crée une nouvelle instance d'unController
-        $controller = new $params[0](new DbConnection('mvcapp', '127.0.0.1', 'root', 'winner'));
+        $controller = new $params[0](new DbConnection(DB_NAME, DB_HOST, DB_USER, DB_PWD));
         $method = $params[1]; // récupère notre action ou method
 
         /* on va utiliser une ternaire pour vérifier si la pages envoyé est avec un identifiant sinon on renvoie une page sans parametre url*/
