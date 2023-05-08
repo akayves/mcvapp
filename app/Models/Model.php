@@ -21,6 +21,7 @@
         public function all() : array 
         {
             $query = $this->db->getPdo()->query("SELECT * FROM {$this->table} ORDER BY created_at DESC");
+            $query->setFetchMode(\PDO::FETCH_CLASS, get_class($this), [$this->db]);
             return $query->fetchAll();
         }
 
@@ -30,11 +31,11 @@
          * @param int $id
          * @return stdclass
          */
-        public function findById(int $id)
+        public function findById(int $id) : Model
         {
             $query = $this->db->getPdo()->prepare("SELECT * FROM {$this->table} WHERE id = ?");
+            $query->setFetchMode(\PDO::FETCH_CLASS, get_class($this), [$this->db]);
             $query->execute([$id]);
-
             return $query->fetch();
         }
     }
