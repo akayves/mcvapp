@@ -6,7 +6,12 @@
     <div class="card mb-3">
         <div class="card-body">
             <h2><?= $post->title;?></h2>
-            <small><?= $post->getCreatedAt()?></small>
+            <div>
+                <?php foreach($post->getTags() as $tag) : ?>
+                    <span class="text text-primary"><?= $tag->name; ?></span>
+                <?php endforeach; ?>
+            </div>
+            <small class="text text-info"><?= $post->getCreatedAt()?></small>
             <p><?= $post->getExcerpt()?></p>
             <?= $post->getButton();?>
         </div>

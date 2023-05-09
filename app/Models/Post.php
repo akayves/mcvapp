@@ -1,8 +1,7 @@
 <?php 
 
     namespace App\Models;
-
-use DateTime;
+    use DateTime;
 
     class Post extends Model{
 
@@ -39,6 +38,18 @@ use DateTime;
             return <<<html
             <a class="btn btn-primary" href="/posts/$this->id">lire l'article</a>
 html;
+        }
+
+        /**
+         * * cette method récupère les tags liés au sujets
+         */
+        public function getTags()
+        {
+            $query ="SELECT t.* FROM tags as t
+            INNER JOIN post_tag as pt ON pt.tag_id = t.id 
+            INNER JOIN posts as p ON pt.post_id = p.id 
+            WHERE p.id = ? ";
+            return $this->query($query, $this->id); 
         }
 
     }
