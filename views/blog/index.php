@@ -8,7 +8,7 @@
             <h2><?= $post->title;?></h2>
             <div>
                 <?php foreach($post->getTags() as $tag) : ?>
-                    <span class="text text-primary"><?= $tag->name; ?></span>
+                    <span class="text text-info"> <a href="/tags/<?= $tag->id?>"><?= $tag->name; ?></a></span>
                 <?php endforeach; ?>
             </div>
             <small class="text text-info"><?= $post->getCreatedAt()?></small>

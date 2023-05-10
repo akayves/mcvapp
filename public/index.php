@@ -14,6 +14,7 @@
     $router->get('/posts', 'App\Controllers\blogController@index');
     //on peut changer posts en ce qu'on veut en cas de réutilisation
     $router->get('posts/:id', 'App\Controllers\blogController@show');
+    $router->get('/tags/:id', 'App\Controllers\blogController@tag');
 
     //il vérifie si nos routes matches normalement
     $router->run(); 

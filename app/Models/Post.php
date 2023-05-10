@@ -46,9 +46,9 @@ html;
         public function getTags()
         {
             $query ="SELECT t.* FROM tags as t
-            INNER JOIN post_tag as pt ON pt.tag_id = t.id 
-            INNER JOIN posts as p ON pt.post_id = p.id 
-            WHERE p.id = ? ";
+            INNER JOIN post_tag as pt 
+            ON pt.tag_id = t.id
+            WHERE pt.post_id = ? ";
             return $this->query($query, $this->id); 
         }
 
