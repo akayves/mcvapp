@@ -44,6 +44,19 @@
         }
 
         /**
+         * * cette methode supprime une donnée dans la base de donnée en fonction 
+         * * de son identifiant
+         * @param int id
+         * @return bool
+         */
+        public function delete(int $id)
+        {
+            $query = "DELETE FROM {$this->table} WHERE id = ?";
+            return $this->query($query, $id);
+        }
+
+
+        /**
          * * cette method va faire un refactoring de nos requetes en un, elle va faire
          * * la requete soit en query ou en prepare en fonction de ce qu'on veut
          * @param string $sql represente notre requete sql
@@ -57,6 +70,22 @@
              * *preparé
              */
             $method = is_null($param) ? 'query' : 'prepare';
+
+            /**
+             * * comme les requetes delete, update et insert ne nous renvoie par
+             * * de donnée on va vérifie le type de de requete dans une condition 
+             * * avant de l'executer
+             */
+            if(strpos($sqlQuery, 'INSERT') === 0
+            || strpos($sqlQuery, 'UPDATE') === 0
+            || strpos($sqlQuery, 'DELETE') === 0 ) :
+
+             $query = $this->db->getPdo()->$method($sqlQuery);
+             $query->setFetchMode(\PDO::FETCH_CLASS, get_class($this), [$this->db]);
+             return $query->execute([$param]);
+
+            endif;
+
 
             /**
              * * si single est null on fait un fetchAll sinon on fait un fetch

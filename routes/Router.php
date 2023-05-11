@@ -19,14 +19,26 @@ class Router {
     }
 
     /**
-     * * cette method se charge d'afficher les requete en get
+     * * cette method se charge de traiter nos vue en get 
      * TODO: on peut créer une autre method post pour traiter les requetes en post
      * @param string path, action 
+     * @return renvoie l'affichage d'une page
      */
     public function get($path, $action)
     {
         //stock les nos routes
         $this->routes['GET'][] = new Route($path, $action);
+    }
+
+    /**
+     * * cette method se charge de traiter nos vue post
+     * @param string path, action 
+     * @return void
+     */
+    public function post($path, $action)
+    {
+        //stock les nos routes
+        $this->routes['POST'][] = new Route($path, $action);
     }
 
     /**

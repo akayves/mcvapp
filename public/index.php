@@ -9,6 +9,10 @@ require_once __DIR__.'/../config/constants.php';
 $router = new Router($_GET['url']);
 
 /**
+ * * frontend route
+ */
+
+/**
  * en plus de $router->get() on pourrait faire aussi créer des router post method
  */
 $router->get('/', 'App\Controllers\blogController@welcome');
@@ -17,7 +21,12 @@ $router->get('/posts', 'App\Controllers\blogController@index');
 $router->get('posts/:id', 'App\Controllers\blogController@show');
 $router->get('/tags/:id', 'App\Controllers\blogController@tag');
 
-//il vérifie si nos routes matches normalement sino on envoie un erreur 404 
+/**
+ * * admin route
+ */
+$router->get('/admin/posts', 'App\Controllers\Admin\postController@index');
+$router->post('/admin/posts/delete/:id', 'App\Controllers\Admin\postController@destroy');
+
 /**
  * * il vérifie si nos route fonctionne normalement sino envoie une erreur 404
  */
