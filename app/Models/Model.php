@@ -22,9 +22,6 @@
         {
             $query = "SELECT * FROM {$this->table} ORDER BY created_at DESC";
            return $this->query($query);
-            /*$query = $this->db->getPdo()->query("SELECT * FROM {$this->table} ORDER BY created_at DESC");
-            $query->setFetchMode(\PDO::FETCH_CLASS, get_class($this), [$this->db]);
-            return $query->fetchAll();*/
         }
 
         /**
@@ -36,11 +33,30 @@
         public function findById(int $id) : Model
         {
             $query ="SELECT * FROM {$this->table} WHERE id = ?";
-            return $this->query($query, $id, true);
-            /*$query = $this->db->getPdo()->prepare("SELECT * FROM {$this->table} WHERE id = ?");
-            $query->setFetchMode(\PDO::FETCH_CLASS, get_class($this), [$this->db]);
-            $query->execute([$id]);
-            return $query->fetch();*/
+            return $this->query($query, [$id], true);
+        }
+
+        /**
+         * * cette methode permet de faire un mis à jour en base de donnée
+         * * on va rendre la requete sql dynamique pour que les class qui hérite
+         * * puise l'utiliser
+         * @param int id
+         * @param array data
+         * @return bool
+         */
+        public function update(int $id, array $data)
+        {
+            $i = 1;
+            $sqlRequestPart ="";
+
+            foreach ($data as $key => $value) {
+                $comma = $i === count($data) ? " " : ", ";
+                $sqlRequestPart .= "{$key} = :{$key}{$comma}";
+                $i++;
+            }
+            $data['id'] = $id;
+            return $this->query("UPDATE {$this->table} SET {$sqlRequestPart} WHERE id = :id", $data);
+           
         }
 
         /**
@@ -52,7 +68,7 @@
         public function delete(int $id)
         {
             $query = "DELETE FROM {$this->table} WHERE id = ?";
-            return $this->query($query, $id);
+            return $this->query($query, [$id]);
         }
 
 
@@ -63,7 +79,7 @@
          * @param int $param répresente le parametre de notre requete pour requete avec where, si il est null on fait un requete query sinon on fait une requete préparé
          * @param bool $single réprésente si on veut faire un fetchAll ou fetch donc false pour fetchAll et true pour fetch
          */
-        public function query(string $sqlQuery, int $param = null, bool $single = null)
+        public function query(string $sqlQuery, array $param = null, bool $single = null)
         {
             /**
              * * si $param est null on fait une requete query sinon c'est une requete
@@ -82,7 +98,7 @@
 
              $query = $this->db->getPdo()->$method($sqlQuery);
              $query->setFetchMode(\PDO::FETCH_CLASS, get_class($this), [$this->db]);
-             return $query->execute([$param]);
+             return $query->execute($param);
 
             endif;
 
@@ -98,7 +114,7 @@
             if($method === 'query') :
              return $query->$fetch();
              else :
-                $query->execute([$param]);
+                $query->execute($param);
                 return $query->$fetch();
             endif;
         }

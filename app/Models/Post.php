@@ -49,7 +49,7 @@ html;
             INNER JOIN post_tag as pt 
             ON pt.tag_id = t.id
             WHERE pt.post_id = ? ";
-            return $this->query($query, $this->id); 
+            return $this->query($query, [$this->id]); 
         }
 
     }

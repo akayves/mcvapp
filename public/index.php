@@ -26,9 +26,11 @@ $router->get('/tags/:id', 'App\Controllers\blogController@tag');
  */
 $router->get('/admin/posts', 'App\Controllers\Admin\postController@index');
 $router->post('/admin/posts/delete/:id', 'App\Controllers\Admin\postController@destroy');
+$router->get("/admin/posts/edit/:id", 'App\Controllers\Admin\postController@edit');
+$router->post("/admin/posts/edit/:id", 'App\Controllers\Admin\postController@update');
 
 /**
- * * il vérifie si nos route fonctionne normalement sino envoie une erreur 404
+ * * il vérifie si nos route fonctionne normalement sinon envoie une erreur 404
  */
 try{
     $router->run(); 
