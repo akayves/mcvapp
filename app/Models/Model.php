@@ -37,20 +37,41 @@
         }
 
         /**
-         * * cette methode permet de faire un mis à jour en base de donnée
-         * * on va rendre la requete sql dynamique pour que les class qui hérite
-         * * puise l'utiliser
+         * * cette methode permet de faire des enregistrement classique dans
+         * * la base de donnée
+         * @param array data tableau de donnée
+         * @param array relation les relations manyToMany qu'on fait
+         * @return bool 
+         */
+        public function create(array $data, ?array $relations = null)
+        {
+            $firstParenthesis =""; //première parenthèse
+            $secondParenthesis =""; //deuxième parenthèse
+            $i = 1;
+            foreach ($data as $key => $value) {
+                $comma = $i === count($data) ? "" : ", ";
+                $firstParenthesis .= "{$key}{$comma}";
+                $secondParenthesis .= ":{$key}{$comma}";
+                $i++;
+            }
+            
+            return $this->query("INSERT INTO {$this->table} ($firstParenthesis) VALUES ($secondParenthesis)", $data);
+        }
+
+        /**
+         * * cette methode permet de faire un mis à jour classique
+         * * en base de donnée
          * @param int id
          * @param array data
          * @return bool
          */
-        public function update(int $id, array $data)
+        public function update(int $id, array $data, ?array $relations = null)
         {
             $i = 1;
             $sqlRequestPart ="";
 
             foreach ($data as $key => $value) {
-                $comma = $i === count($data) ? " " : ", ";
+                $comma = $i === count($data) ? "" : ", ";
                 $sqlRequestPart .= "{$key} = :{$key}{$comma}";
                 $i++;
             }

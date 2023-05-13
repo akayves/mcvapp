@@ -25,9 +25,12 @@ $router->get('/tags/:id', 'App\Controllers\blogController@tag');
  * * admin route
  */
 $router->get('/admin/posts', 'App\Controllers\Admin\postController@index');
-$router->post('/admin/posts/delete/:id', 'App\Controllers\Admin\postController@destroy');
+$router->get("/admin/posts/create", 'App\Controllers\Admin\postController@create');
+$router->post("/admin/posts/create", 'App\Controllers\Admin\postController@createPost');
 $router->get("/admin/posts/edit/:id", 'App\Controllers\Admin\postController@edit');
 $router->post("/admin/posts/edit/:id", 'App\Controllers\Admin\postController@update');
+$router->post('/admin/posts/delete/:id', 'App\Controllers\Admin\postController@destroy');
+
 
 /**
  * * il vérifie si nos route fonctionne normalement sinon envoie une erreur 404
