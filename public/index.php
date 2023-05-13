@@ -22,6 +22,13 @@ $router->get('posts/:id', 'App\Controllers\blogController@show');
 $router->get('/tags/:id', 'App\Controllers\blogController@tag');
 
 /**
+ * * login route
+ */
+$router->get('/login', 'App\Controllers\userController@login');
+$router->post('/login', 'App\Controllers\userController@loginPost');
+$router->get('/logout', 'App\Controllers\userController@logout');
+
+/**
  * * admin route
  */
 $router->get('/admin/posts', 'App\Controllers\Admin\postController@index');

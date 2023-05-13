@@ -1,20 +1,22 @@
 <?php 
-
-/**
- * * cette class ecrit la logique pour nos different controller qu'on va créer
- * * elle va est hérité par chaque controller que nous créer exemple pour le blogController
- * 
- */
-
  namespace App\Controllers;
 
 use Database\DbConnection;
 
- abstract class Controller{
+/**
+ * * cette class ecrit la logique pour nos different controller qu'on va créer
+ * * elle va etre hérité par chaque controller que nous créer exemple pour le blogController
+ * 
+ */
+abstract class Controller{
    protected $db;
    
    public function __construct(DbConnection $db)
    {
+      if(session_status() === PHP_SESSION_NONE) :
+         session_start();
+      endif;
+
       $this->db = $db;
    }
    
@@ -46,8 +48,21 @@ use Database\DbConnection;
     * @param void
     * @return la connexion base de donnée
     */
-    protected function getDB() {
+    protected function getDB() 
+    {
       return $this->db;
+    }
+
+    /**
+     * * cette methode vérifie si vous etes un administrateur
+     */
+    public function isAdmin()
+    {
+      if( isset($_SESSION['auth']) && $_SESSION['auth'] === 1): 
+         return true;
+         else :
+            return header('Location: /login');
+      endif;
     }
     
 

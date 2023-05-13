@@ -19,6 +19,7 @@ use App\Models\Tag;
      */
     public function index()
     {
+        $this->isAdmin();
         $posts = (new Post($this->getDB()))->all();
         return $this->view('admin.post.index', compact('posts'));
     }
@@ -30,6 +31,7 @@ use App\Models\Tag;
      */
     public function create()
     {
+        $this->isAdmin();
         $tags = (new Tag($this->getDB()))->all();
         return $this->view('admin.post.form', compact('tags'));
     }
@@ -42,6 +44,7 @@ use App\Models\Tag;
      */
     public function createPost()
     {
+        $this->isAdmin();
         $post = new Post($this->getDB());
         $tags = array_pop($_POST);
         $result = $post->create($_POST, $tags);
@@ -58,6 +61,7 @@ use App\Models\Tag;
      */
     public function edit(int $id)
     {
+        $this->isAdmin();
         $post = (new Post($this->getDB()))->findById($id);
         $tags = (new Tag($this->getDB()))->all();
 
@@ -71,6 +75,7 @@ use App\Models\Tag;
      */
     public function update(int $id)
     {
+        $this->isAdmin();
         $post = new Post($this->getDB());
         $tags = array_pop($_POST);
         $result = $post->update($id, $_POST, $tags);
@@ -87,6 +92,7 @@ use App\Models\Tag;
      */
     public function destroy(int $id)
     {
+        $this->isAdmin();
         $post = new Post($this->getDB());
         $result = $post->delete($id);
 
