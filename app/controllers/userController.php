@@ -3,6 +3,8 @@
 namespace App\Controllers;
 
 use App\Models\User;
+use App\Validation\Validator;
+use TypeError;
 
 /**
  * * cette class permet de gérer les utilisateurs qui peuvent se connecter
@@ -24,20 +26,36 @@ use App\Models\User;
      */
     public function loginPost()
     {
-        $user = (new User($this->getDB()))->getByUsername($_POST['username']);
+        /**
+         * * validation des données
+         */
+        $validator = new Validator($_POST);
+        $errors = $validator->validate([
+            'username' => ['required', 'min:3'],
+            'password' => ['required']
+        ]);
         
-        if(password_verify($_POST['password'], $user->password)) :
-           $_SESSION['auth'] = (int)$user->admin;
-           return header('Location: /admin/posts?success=true');
-           //on passe un message de success à notre url
-        else :
+        try{
+            $user = (new User($this->getDB()))->getByUsername($_POST['username']);
+            if(password_verify($_POST['password'], $user->password)) :
+                $_SESSION['auth'] = (int)$user->admin;
+                return header('Location: /admin/posts?success=true');
+                //on passe un message de success à notre url
+             else :
+                //return header('Location: /login');
+                 $errors['username'][] ="nom d'utilisateur ou mot de passe incorrect";
+             endif;
+        }catch(TypeError $e){
+            $errors['username'][] ="nom d'utilisateur ou mot de passe incorrect";
+        }
+
+        if($errors) {
+            $_SESSION['errors'][] = $errors;
             return header('Location: /login');
-            /**
-             * * on pourrait envoyer une variable errror dans l'url pour les message
-             * * d'erreur
-             */
-            
-        endif;
+            exit;
+        }          
+        
+        
     }
     
     /**

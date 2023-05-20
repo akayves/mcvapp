@@ -27,11 +27,11 @@
             <ul class="navbar-nav ml-auto">
                 <?php if(isset($_SESSION['auth'])) : ?>
                 <li class="nav-item">
-                    <a class="nav-link" href="/logout">se deconnecter</a> 
+                    <a class="nav-link" href="/logout">Se deconnecter</a> 
                 </li>
                <?php else: ?>
                 <li class="nav-item">
-                    <a class="nav-link" href="/login">se seconnecter</a> 
+                    <a class="nav-link" href="/login">Se connecter</a> 
                 </li>
                 <?php endif; ?>
             </ul>           
